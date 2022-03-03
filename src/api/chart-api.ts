@@ -9,6 +9,7 @@ import { clone, DeepPartial, isBoolean, merge } from '../helpers/strict-type-che
 import { BarPrice, BarPrices } from '../model/bar';
 import { ChartOptions, ChartOptionsInternal } from '../model/chart-model';
 import { ColorType } from '../model/layout-options';
+import { Pane } from '../model/pane';
 import { Series } from '../model/series';
 import {
 	AreaSeriesOptions,
@@ -364,6 +365,10 @@ export class ChartApi implements IChartApi, DataUpdatesConsumer<SeriesType> {
 
 	public swapPane(first: number, second: number): void {
 		this._chartWidget.model().swapPane(first, second);
+	}
+
+	public panes(): readonly Pane[] {
+		return this._chartWidget.model().panes();
 	}
 
 	public getPaneElements(): HTMLElement[] {

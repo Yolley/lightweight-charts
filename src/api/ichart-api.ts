@@ -2,6 +2,7 @@ import { DeepPartial } from '../helpers/strict-type-checks';
 
 import { BarPrice, BarPrices } from '../model/bar';
 import { ChartOptions } from '../model/chart-model';
+import { Pane } from '../model/pane';
 import { Point } from '../model/point';
 import { SeriesMarker } from '../model/series-markers';
 import {
@@ -268,6 +269,8 @@ export interface IChartApi {
 	 * @param second - the second index
 	 */
 	swapPane(first: number, second: number): void;
+
+	panes(): Readonly<Pane[]>;
 
 	getPaneElements(): HTMLElement[];
 }

@@ -7,6 +7,7 @@ import { clone, DeepPartial } from '../helpers/strict-type-checks';
 import { ChartModel, ChartOptions, OverlayPriceScaleOptions, VisiblePriceScaleOptions } from './chart-model';
 import { DefaultPriceScaleId, isDefaultPriceScale } from './default-price-scale';
 import { Grid } from './grid';
+import { IPane } from './ipane';
 import { IPriceDataSource } from './iprice-data-source';
 import { PriceScale, PriceScaleOptions, PriceScaleState } from './price-scale';
 import { sortSources } from './sort-sources';
@@ -23,7 +24,7 @@ interface MinMaxOrderInfo {
 	maxZOrder: number;
 }
 
-export class Pane implements IDestroyable {
+export class Pane implements IPane, IDestroyable {
 	private readonly _timeScale: TimeScale;
 	private readonly _model: ChartModel;
 	private readonly _grid: Grid;
