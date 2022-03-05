@@ -303,6 +303,11 @@ export interface ChartOptions {
 	 */
 	trackingMode: TrackingModeOptions;
 
+	/**
+	 * Disable resize with pane separator
+	 */
+	disableResize: boolean;
+
 }
 
 export type ChartOptionsInternal =

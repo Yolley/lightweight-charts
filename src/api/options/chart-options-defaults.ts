@@ -54,4 +54,5 @@ export const chartOptionsDefaults: ChartOptionsInternal = {
 	trackingMode: {
 		exitMode: TrackingModeExitMode.OnNextTap,
 	},
+	disableResize: false,
 };
