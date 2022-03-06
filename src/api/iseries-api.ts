@@ -3,6 +3,7 @@ import { IPriceFormatter } from '../formatters/iprice-formatter';
 import { BarPrice } from '../model/bar';
 import { Coordinate } from '../model/coordinate';
 import { PriceLineOptions } from '../model/price-line-options';
+import { SeriesLabel } from '../model/series-label';
 import { SeriesMarker } from '../model/series-markers';
 import {
 	SeriesOptionsMap,
@@ -157,6 +158,8 @@ export interface ISeriesApi<TSeriesType extends SeriesType> {
 	 * ```
 	 */
 	update(bar: SeriesDataItemTypeMap[TSeriesType]): void;
+
+	setLabels(data: SeriesLabel[]): void;
 
 	/**
 	 * Allows to set/replace all existing series markers with new ones.

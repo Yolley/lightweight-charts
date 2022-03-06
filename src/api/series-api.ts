@@ -9,6 +9,7 @@ import { PlotRowSearchMode } from '../model/plot-list';
 import { PriceLineOptions } from '../model/price-line-options';
 import { RangeImpl } from '../model/range-impl';
 import { Series, SeriesPartialOptionsInternal } from '../model/series';
+import { SeriesLabel } from '../model/series-label';
 import { SeriesMarker } from '../model/series-markers';
 import {
 	SeriesOptionsMap,
@@ -133,6 +134,10 @@ export class SeriesApi<TSeriesType extends SeriesType> implements ISeriesApi<TSe
 		checkSeriesValuesType(this._series.seriesType(), [bar]);
 
 		this._dataUpdatesConsumer.updateData(this._series, bar);
+	}
+
+	public setLabels(data: SeriesLabel[]): void {
+		this._series.setLabels(data);
 	}
 
 	public setMarkers(data: SeriesMarker<Time>[]): void {

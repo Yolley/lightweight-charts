@@ -39,6 +39,7 @@ import { PriceRangeImpl } from './price-range-impl';
 import { PriceScale } from './price-scale';
 import { SeriesBarColorer } from './series-bar-colorer';
 import { createSeriesPlotList, SeriesPlotList, SeriesPlotRow } from './series-data';
+import { SeriesLabel } from './series-label';
 import { InternalSeriesMarker, SeriesMarker } from './series-markers';
 import {
 	AreaStyleOptions,
@@ -112,6 +113,7 @@ export class Series<T extends SeriesType = SeriesType> extends PriceDataSource i
 	private _barColorerCache: SeriesBarColorer | null = null;
 	private readonly _options: SeriesOptionsInternal<T>;
 	private _markers: SeriesMarker<TimePoint>[] = [];
+	private _labels: SeriesLabel[] = [];
 	private _indexedMarkers: InternalSeriesMarker<TimePointIndex>[] = [];
 	private _markersPaneView!: SeriesMarkersPaneView;
 	private _animationTimeoutId: TimerId | null = null;
@@ -278,6 +280,15 @@ export class Series<T extends SeriesType = SeriesType> extends PriceDataSource i
 		this.model().lightUpdate();
 	}
 
+	public setLabels(data: SeriesLabel[]): void {
+		this._labels = data.map((item: SeriesLabel) => ({ ...item }));
+		const sourcePane = this.model().paneForSource(this);
+		this.model().recalculatePane(sourcePane);
+		this.model().updateSource(this);
+		this.model().updateCrosshair();
+		this.model().lightUpdate();
+	}
+
 	public setMarkers(data: SeriesMarker<TimePoint>[]): void {
 		this._markers = data.map<SeriesMarker<TimePoint>>((item: SeriesMarker<TimePoint>) => ({ ...item }));
 		this._recalculateMarkers();
@@ -287,6 +298,10 @@ export class Series<T extends SeriesType = SeriesType> extends PriceDataSource i
 		this.model().updateSource(this);
 		this.model().updateCrosshair();
 		this.model().lightUpdate();
+	}
+
+	public labels(): SeriesLabel[] {
+		return this._labels;
 	}
 
 	public indexedMarkers(): InternalSeriesMarker<TimePointIndex>[] {

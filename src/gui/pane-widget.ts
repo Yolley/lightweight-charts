@@ -13,6 +13,7 @@ import { InvalidationLevel } from '../model/invalidate-mask';
 import { IPriceDataSource } from '../model/iprice-data-source';
 import { Pane } from '../model/pane';
 import { Point } from '../model/point';
+import { Series } from '../model/series';
 import { TimePointIndex } from '../model/time-data';
 import { IPaneRenderer } from '../renderers/ipane-renderer';
 import { IPaneView } from '../views/pane/ipane-view';
@@ -75,6 +76,7 @@ export class PaneWidget implements IDestroyable, MouseEventHandlers {
 	private _size: Size = new Size(0, 0);
 	private _leftPriceAxisWidget: PriceAxisWidget | null = null;
 	private _rightPriceAxisWidget: PriceAxisWidget | null = null;
+	private readonly _labelsContainer: HTMLElement;
 	private readonly _paneCell: HTMLElement;
 	private readonly _leftAxisCell: HTMLElement;
 	private readonly _rightAxisCell: HTMLElement;
@@ -102,6 +104,14 @@ export class PaneWidget implements IDestroyable, MouseEventHandlers {
 		this._paneCell = document.createElement('td');
 		this._paneCell.style.padding = '0';
 		this._paneCell.style.position = 'relative';
+
+		this._labelsContainer = document.createElement('div');
+		this._labelsContainer.style.position = 'absolute';
+		this._labelsContainer.style.top = '3px';
+		this._labelsContainer.style.left = '3px';
+		this._labelsContainer.style.zIndex = '10';
+
+		this._paneCell.appendChild(this._labelsContainer);
 
 		const paneWrapper = document.createElement('div');
 		paneWrapper.style.width = '100%';
@@ -463,6 +473,10 @@ export class PaneWidget implements IDestroyable, MouseEventHandlers {
 			this.recalculatePriceScales();
 		}
 
+		if (type > InvalidationLevel.Cursor) {
+			this._drawLabels();
+		}
+
 		if (this._leftPriceAxisWidget !== null) {
 			this._leftPriceAxisWidget.paint(type);
 		}
@@ -554,6 +568,30 @@ export class PaneWidget implements IDestroyable, MouseEventHandlers {
 
 		for (const source of sources) {
 			this._drawSourceImpl(ctx, pixelRatio, paneViewsGetter, drawForeground, source);
+		}
+	}
+
+	private _drawLabels(): void {
+		this._labelsContainer.innerHTML = '';
+		const state = ensureNotNull(this._state);
+		const sources = state.orderedSources();
+		for (const source of sources) {
+			if (source instanceof Series) {
+				for (const label of source.labels()) {
+					const labelElement = document.createElement('div');
+					labelElement.className = 'tv-lightweight-charts-label';
+					if (label.color) {
+						const colorElement = document.createElement('i');
+						colorElement.style.display = 'inline-block';
+						colorElement.style.width = '10px';
+						colorElement.style.height = '10px';
+						colorElement.style.backgroundColor = label.color;
+						labelElement.appendChild(colorElement);
+					}
+					labelElement.innerHTML += label.text;
+					this._labelsContainer.appendChild(labelElement);
+				}
+			}
 		}
 	}
 
