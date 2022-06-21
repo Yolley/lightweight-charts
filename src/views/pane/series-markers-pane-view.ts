@@ -61,6 +61,14 @@ function fillSizeAndY(
 			}
 			return;
 		}
+		case 'afterBar': {
+			rendererItem.y = priceScale.priceToCoordinate(inBarPrice, firstValue);
+			rendererItem.x = timeScale.indexToCoordinate(marker.time) + (timeScale.barSpacing() / 2) as Coordinate;
+			if (rendererItem.text !== undefined) {
+				rendererItem.text.y = rendererItem.y + halfSize + shapeMargin + textHeight * (0.5 + Constants.TextMargin) as Coordinate;
+			}
+			return;
+		}
 		case 'aboveBar': {
 			rendererItem.y = (priceScale.priceToCoordinate(highPrice, firstValue) - halfSize - offsets.aboveBar) as Coordinate;
 			if (rendererItem.text !== undefined) {
