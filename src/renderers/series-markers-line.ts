@@ -13,6 +13,8 @@ export function drawLine(
 	const halfSize = (lineSize - 1) / 2;
 	centerY = centerY * 5 as Coordinate;
 
+	ctx.beginPath();
+
 	ctx.moveTo(centerX - halfSize, 0);
 	ctx.lineTo(centerX - halfSize, centerY);
 	ctx.lineTo(centerX + halfSize, centerY);
