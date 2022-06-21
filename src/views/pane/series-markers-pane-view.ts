@@ -33,7 +33,7 @@ interface Offsets {
 	belowBar: number;
 }
 
-// eslint-disable-next-line max-params
+// eslint-disable-next-line max-params, complexity
 function fillSizeAndY(
 	rendererItem: SeriesMarkerRendererDataItem,
 	marker: SeriesMarker<TimePointIndex>,
@@ -64,6 +64,14 @@ function fillSizeAndY(
 		case 'afterBar': {
 			rendererItem.y = priceScale.priceToCoordinate(inBarPrice, firstValue);
 			rendererItem.x = timeScale.indexToCoordinate(marker.time) + (timeScale.barSpacing() / 2) as Coordinate;
+			if (rendererItem.text !== undefined) {
+				rendererItem.text.y = rendererItem.y + halfSize + shapeMargin + textHeight * (0.5 + Constants.TextMargin) as Coordinate;
+			}
+			return;
+		}
+		case 'beforeBar': {
+			rendererItem.y = priceScale.priceToCoordinate(inBarPrice, firstValue);
+			rendererItem.x = timeScale.indexToCoordinate(marker.time) - (timeScale.barSpacing() / 2) as Coordinate;
 			if (rendererItem.text !== undefined) {
 				rendererItem.text.y = rendererItem.y + halfSize + shapeMargin + textHeight * (0.5 + Constants.TextMargin) as Coordinate;
 			}

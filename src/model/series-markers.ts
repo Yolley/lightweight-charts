@@ -1,7 +1,7 @@
 /**
  * Represents the position of a series marker relative to a bar.
  */
-export type SeriesMarkerPosition = 'aboveBar' | 'belowBar' | 'inBar' | 'afterBar';
+export type SeriesMarkerPosition = 'aboveBar' | 'belowBar' | 'inBar' | 'afterBar' | 'beforeBar';
 
 /**
  * Represents the shape of a series marker.
