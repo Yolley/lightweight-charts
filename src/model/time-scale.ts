@@ -425,10 +425,13 @@ export class TimeScale {
 		return Math.ceil(this._coordinateToFloatIndex(x)) as TimePointIndex;
 	}
 
-	public setRightOffset(offset: number): void {
+	public setRightOffset(offset: number, syncScroll?: boolean): void {
 		this._visibleRangeInvalidated = true;
 		this._rightOffset = offset;
 		this._correctOffset();
+		if (syncScroll && this._scrollStartPoint !== null) {
+			this._saveCommonTransitionsStartState();
+		}
 		this._model.recalculateAllPanes();
 		this._model.lightUpdate();
 	}
